@@ -2,6 +2,7 @@ import 'package:barbar_shop/core/utils/app_colors/app_colors.dart';
 import 'package:barbar_shop/core/utils/dummy_data/shops.dart';
 import 'package:barbar_shop/core/utils/textstyles/app_textstyles.dart';
 import 'package:barbar_shop/features/home/presentation/widgets/barber_shop_card.dart';
+import 'package:barbar_shop/features/shop_detail/presentation/pages/shop_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +22,7 @@ class HomePage extends HookConsumerWidget {
           padding: EdgeInsets.symmetric(horizontal: 8.w),
           child: Column(
             children: [
-              SizedBox(height: 40.h,),
+              SizedBox(height: 40.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -73,9 +74,9 @@ class HomePage extends HookConsumerWidget {
                   hintText: 'Search',
                   hintStyle: TextStyle(color: AppColors.onPrimary),
                   prefixIcon: Icon(Icons.search, color: AppColors.onPrimary),
-                  border: OutlineInputBorder(
+                  enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(24.r),
-                    borderSide: BorderSide(color: AppColors.onPrimary),
+                    borderSide: BorderSide(color: AppColors.onSecondary),
                   ),
                   focusColor: AppColors.primary,
                   focusedBorder: OutlineInputBorder(
@@ -89,14 +90,8 @@ class HomePage extends HookConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Nearby Barbershops",
-                    style: AppTextStyles.heading2,
-                  ),
-                  Text(
-                    "See all",
-                    style: AppTextStyles.body,
-                  ),
+                  Text("Nearby Barbershops", style: AppTextStyles.heading2),
+                  Text("See all", style: AppTextStyles.body),
                 ],
               ),
               SizedBox(height: 16.h),
@@ -110,6 +105,16 @@ class HomePage extends HookConsumerWidget {
                   return Column(
                     children: [
                       BarberShopCard(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ShopDetailPage(shop: shop,);
+                              },
+                            ),
+                          );
+                        },
                         name: shop.name,
                         distance: shop.address,
                         image: shop.image,

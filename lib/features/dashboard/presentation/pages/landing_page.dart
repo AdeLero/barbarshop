@@ -27,6 +27,7 @@ class LandingPage extends ConsumerWidget {
       body: PageView(
         controller: nav.pageController,
         onPageChanged: ref.read(dashboardPageChangeProvider).onPageChanged,
+        physics: NeverScrollableScrollPhysics(),
         children: const [
           HomePage(),
           SearchPage(),
@@ -34,7 +35,8 @@ class LandingPage extends ConsumerWidget {
           Center(child: Text("Profile", style: TextStyle(color: Colors.white))),
         ],
       ),
-      bottomNavigationBar: Padding(
+      bottomNavigationBar: nav.selectedPage != 1
+          ? Padding(
         padding: EdgeInsets.only(left: 46.w, right: 46.w, bottom: 24.h),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
@@ -74,7 +76,8 @@ class LandingPage extends ConsumerWidget {
             }),
           ),
         ),
-      ),
+      )
+      : null,
     );
   }
 }
