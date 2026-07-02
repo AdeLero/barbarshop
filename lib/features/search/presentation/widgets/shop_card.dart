@@ -1,5 +1,5 @@
-import 'package:barbar_shop/core/utils/app_colors/app_colors.dart';
-import 'package:barbar_shop/core/utils/textstyles/app_textstyles.dart';
+import 'package:barbar_shop/core/theme/app_colors.dart';
+import 'package:barbar_shop/core/theme/app_textstyles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
