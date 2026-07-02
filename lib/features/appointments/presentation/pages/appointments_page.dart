@@ -2,21 +2,21 @@ import 'package:barbar_shop/core/theme/app_colors.dart';
 import 'package:barbar_shop/core/theme/app_textstyles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 enum AppointmentTab { upcoming, past }
 
-class AppointmentsPage extends StatefulWidget {
+final appointmentTabProvider = StateProvider<AppointmentTab>((ref) {
+  return AppointmentTab.upcoming;
+});
+
+class AppointmentsPage extends ConsumerWidget {
   const AppointmentsPage({super.key});
 
   @override
-  State<AppointmentsPage> createState() => _AppointmentsPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedTab = ref.watch(appointmentTabProvider);
 
-class _AppointmentsPageState extends State<AppointmentsPage> {
-  AppointmentTab _selectedTab = AppointmentTab.upcoming;
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -38,11 +38,10 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                   Expanded(
                     child: _CustomTabButton(
                       label: 'Upcoming',
-                      selected: _selectedTab == AppointmentTab.upcoming,
+                      selected: selectedTab == AppointmentTab.upcoming,
                       onTap: () {
-                        setState(() {
-                          _selectedTab = AppointmentTab.upcoming;
-                        });
+                        ref.read(appointmentTabProvider.notifier).state =
+                            AppointmentTab.upcoming;
                       },
                     ),
                   ),
@@ -50,11 +49,10 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                   Expanded(
                     child: _CustomTabButton(
                       label: 'Past',
-                      selected: _selectedTab == AppointmentTab.past,
+                      selected: selectedTab == AppointmentTab.past,
                       onTap: () {
-                        setState(() {
-                          _selectedTab = AppointmentTab.past;
-                        });
+                        ref.read(appointmentTabProvider.notifier).state =
+                            AppointmentTab.past;
                       },
                     ),
                   ),
@@ -63,7 +61,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
               SizedBox(height: 16.h),
               Expanded(
                 child:
-                    _selectedTab == AppointmentTab.upcoming
+                    selectedTab == AppointmentTab.upcoming
                         ? _AppointmentList(
                           appointments: _upcomingAppointments,
                           emptyLabel: 'No upcoming appointments.',

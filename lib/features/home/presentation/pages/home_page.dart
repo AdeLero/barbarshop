@@ -1,7 +1,12 @@
 import 'package:barbar_shop/core/core.dart';
 import 'package:barbar_shop/core/utils/dummy_data/shops.dart';
+import 'package:barbar_shop/features/appointments/presentation/pages/appointments_page.dart';
+import 'package:barbar_shop/features/dashboard/presentation/viewmodels/dashboard_page_change_notifier/dashboard_page_change_notifier.dart';
+import 'package:barbar_shop/features/favorites/presentation/pages/favorites_page.dart';
 import 'package:barbar_shop/features/home/presentation/widgets/barber_shop_card.dart';
 import 'package:barbar_shop/features/profile/presentation/widgets/widgets.dart';
+import 'package:barbar_shop/features/nearby/presentation/pages/nearby_page.dart';
+import 'package:barbar_shop/features/notifications/presentation/pages/notifications_page.dart';
 import 'package:barbar_shop/features/shop_detail/presentation/pages/shop_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -48,21 +53,28 @@ class HomePage extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                      vertical: 24.h,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: AppColors.onSecondary,
-                        width: 2,
+                  GestureDetector(
+                    onTap: () {
+                      getIt<NavigationService>().push(
+                        const NotificationsPage(),
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 24.h,
                       ),
-                      borderRadius: BorderRadius.circular(24.r),
-                    ),
-                    child: Icon(
-                      Icons.notifications_none,
-                      color: AppColors.onBackground,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColors.onSecondary,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(24.r),
+                      ),
+                      child: Icon(
+                        Icons.notifications_none,
+                        color: AppColors.onBackground,
+                      ),
                     ),
                   ),
                 ],
@@ -91,7 +103,14 @@ class HomePage extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Upcoming Appointment", style: AppTextStyles.heading2),
-                  Text("See all", style: AppTextStyles.body),
+                  GestureDetector(
+                    onTap: () {
+                      ref.read(appointmentTabProvider.notifier).state =
+                          AppointmentTab.upcoming;
+                      ref.read(dashboardPageChangeProvider).setIndex(2);
+                    },
+                    child: Text("See All", style: AppTextStyles.body),
+                  ),
                 ],
               ),
               SizedBox(height: 12.h),
@@ -153,7 +172,10 @@ class HomePage extends HookConsumerWidget {
                           color: AppColors.onBackground,
                         ),
                         SizedBox(width: 8.w),
-                        Text("Fri, 12 Jul • 11:30 AM", style: AppTextStyles.body),
+                        Text(
+                          "Fri, 12 Jul • 11:30 AM",
+                          style: AppTextStyles.body,
+                        ),
                       ],
                     ),
                     SizedBox(height: 10.h),
@@ -164,7 +186,10 @@ class HomePage extends HookConsumerWidget {
                           color: AppColors.onBackground,
                         ),
                         SizedBox(width: 8.w),
-                        Text("Barber: Idris Coleman", style: AppTextStyles.body),
+                        Text(
+                          "Barber: Idris Coleman",
+                          style: AppTextStyles.body,
+                        ),
                       ],
                     ),
                   ],
@@ -175,9 +200,16 @@ class HomePage extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Favorite Shops", style: AppTextStyles.heading2),
-                  Text(
-                    "View all",
-                    style: AppTextStyles.body.copyWith(color: AppColors.primary),
+                  GestureDetector(
+                    onTap: () {
+                      getIt<NavigationService>().push(const FavoritesPage());
+                    },
+                    child: Text(
+                      "See All",
+                      style: AppTextStyles.body.copyWith(
+                        color: AppColors.primary,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -202,7 +234,12 @@ class HomePage extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Nearby Barbershops", style: AppTextStyles.heading2),
-                  Text("See all", style: AppTextStyles.body),
+                  GestureDetector(
+                    onTap: () {
+                      getIt<NavigationService>().push(const NearbyPage());
+                    },
+                    child: Text("See All", style: AppTextStyles.body),
+                  ),
                 ],
               ),
               SizedBox(height: 16.h),
