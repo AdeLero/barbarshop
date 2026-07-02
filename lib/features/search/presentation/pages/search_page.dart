@@ -1,6 +1,6 @@
-import 'package:barbar_shop/core/utils/app_colors/app_colors.dart';
+import 'package:barbar_shop/core/theme/app_colors.dart';
 import 'package:barbar_shop/core/utils/dummy_data/shops.dart';
-import 'package:barbar_shop/core/utils/textstyles/app_textstyles.dart';
+import 'package:barbar_shop/core/theme/app_textstyles.dart';
 import 'package:barbar_shop/features/dashboard/presentation/viewmodels/dashboard_page_change_notifier/dashboard_page_change_notifier.dart';
 import 'package:barbar_shop/features/search/presentation/widgets/shop_card.dart';
 import 'package:card_swiper/card_swiper.dart';

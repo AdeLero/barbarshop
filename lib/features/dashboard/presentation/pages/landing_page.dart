@@ -1,10 +1,11 @@
 // landing_page.dart
 import 'package:barbar_shop/features/dashboard/presentation/viewmodels/dashboard_page_change_notifier/dashboard_page_change_notifier.dart';
 import 'package:barbar_shop/features/home/presentation/pages/home_page.dart';
+import 'package:barbar_shop/features/profile/presentation/pages/profile_page.dart';
 import 'package:barbar_shop/features/search/presentation/pages/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:barbar_shop/core/utils/app_colors/app_colors.dart';
+import 'package:barbar_shop/core/theme/app_colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class LandingPage extends ConsumerWidget {
@@ -32,7 +33,7 @@ class LandingPage extends ConsumerWidget {
           HomePage(),
           SearchPage(),
           Center(child: Text("Calendar", style: TextStyle(color: Colors.white))),
-          Center(child: Text("Profile", style: TextStyle(color: Colors.white))),
+          ProfilePage(),
         ],
       ),
       bottomNavigationBar: nav.selectedPage != 1
@@ -45,7 +46,7 @@ class LandingPage extends ConsumerWidget {
             borderRadius: BorderRadius.circular(32.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.6),
+               color: Colors.black.withValues(alpha: 0.6),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               )

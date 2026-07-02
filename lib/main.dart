@@ -1,8 +1,8 @@
-import 'package:barbar_shop/core/utils/app_theme/app_theme.dart';
-import 'package:barbar_shop/features/dashboard/presentation/pages/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:barbar_shop/core/core.dart';
+import 'package:barbar_shop/features/features.dart';
 
 void main() {
   runApp(ProviderScope(child: const MyApp()));

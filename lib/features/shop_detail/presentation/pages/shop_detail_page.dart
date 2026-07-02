@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:barbar_shop/core/utils/app_colors/app_colors.dart';
-import 'package:barbar_shop/core/utils/textstyles/app_textstyles.dart';
+import 'package:barbar_shop/core/theme/app_colors.dart';
+import 'package:barbar_shop/core/theme/app_textstyles.dart';
 import 'package:barbar_shop/features/home/domain/entities/barber_shop.dart';
 import 'package:barbar_shop/features/shop_detail/presentation/widgets/shop_option_card.dart';
 import 'package:flutter/material.dart';
