@@ -1,5 +1,6 @@
 // landing_page.dart
 import 'package:barbar_shop/features/dashboard/presentation/viewmodels/dashboard_page_change_notifier/dashboard_page_change_notifier.dart';
+import 'package:barbar_shop/features/appointments/presentation/pages/appointments_page.dart';
 import 'package:barbar_shop/features/home/presentation/pages/home_page.dart';
 import 'package:barbar_shop/features/profile/presentation/pages/profile_page.dart';
 import 'package:barbar_shop/features/search/presentation/pages/search_page.dart';
@@ -32,53 +33,60 @@ class LandingPage extends ConsumerWidget {
         children: const [
           HomePage(),
           SearchPage(),
-          Center(child: Text("Calendar", style: TextStyle(color: Colors.white))),
+          AppointmentsPage(),
           ProfilePage(),
         ],
       ),
-      bottomNavigationBar: nav.selectedPage != 1
-          ? Padding(
-        padding: EdgeInsets.only(left: 46.w, right: 46.w, bottom: 24.h),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-          decoration: BoxDecoration(
-            color: AppColors.background,
-            borderRadius: BorderRadius.circular(32.r),
-            boxShadow: [
-              BoxShadow(
-               color: Colors.black.withValues(alpha: 0.6),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              )
-            ],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(_icons.length, (index) {
-              final isSelected = nav.selectedPage == index;
-
-              return GestureDetector(
-                onTap: () => ref.read(dashboardPageChangeProvider).setIndex(index),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
-                  curve: Curves.easeInOutCirc,
-                  padding: EdgeInsets.all(16.w),
+      bottomNavigationBar:
+          nav.selectedPage != 1
+              ? Padding(
+                padding: EdgeInsets.only(left: 46.w, right: 46.w, bottom: 24.h),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
                   decoration: BoxDecoration(
-                    color: isSelected ? AppColors.primary : AppColors.onSecondary,
-                    shape: BoxShape.circle,
+                    color: AppColors.background,
+                    borderRadius: BorderRadius.circular(32.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.6),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                  child: Icon(
-                    _icons[index],
-                    color: isSelected ? Colors.black : Colors.white,
-                    size: 24,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(_icons.length, (index) {
+                      final isSelected = nav.selectedPage == index;
+
+                      return GestureDetector(
+                        onTap:
+                            () => ref
+                                .read(dashboardPageChangeProvider)
+                                .setIndex(index),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 250),
+                          curve: Curves.easeInOutCirc,
+                          padding: EdgeInsets.all(16.w),
+                          decoration: BoxDecoration(
+                            color:
+                                isSelected
+                                    ? AppColors.primary
+                                    : AppColors.onSecondary,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            _icons[index],
+                            color: isSelected ? Colors.black : Colors.white,
+                            size: 24,
+                          ),
+                        ),
+                      );
+                    }),
                   ),
                 ),
-              );
-            }),
-          ),
-        ),
-      )
-      : null,
+              )
+              : null,
     );
   }
 }
