@@ -1,7 +1,6 @@
 import 'dart:ui';
 
-import 'package:barbar_shop/core/theme/app_colors.dart';
-import 'package:barbar_shop/core/theme/app_textstyles.dart';
+import 'package:barbar_shop/core/core.dart';
 import 'package:barbar_shop/features/home/domain/entities/barber_shop.dart';
 import 'package:barbar_shop/features/shop_detail/presentation/widgets/shop_option_card.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +35,7 @@ class ShopDetailPage extends HookConsumerWidget {
                         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                         child: InkWell(
                           onTap: () {
-                            Navigator.pop(context);
+                            getIt<NavigationService>().pop();
                           },
                           child: Container(
                             padding: EdgeInsets.all(16.w),
@@ -63,9 +62,7 @@ class ShopDetailPage extends HookConsumerWidget {
                         child: Container(
                           padding: EdgeInsets.all(8.w),
                           decoration: BoxDecoration(
-                            color: AppColors.onPrimary.withOpacity(
-                              0.3,
-                            ), // translucent color
+                            color: AppColors.onPrimary.withValues(alpha: 0.3),
                             borderRadius: BorderRadius.circular(40.r),
                           ),
                           child: Row(
@@ -75,7 +72,7 @@ class ShopDetailPage extends HookConsumerWidget {
                                 "4.8",
                                 style: AppTextStyles.body.copyWith(
                                   color: Colors.white,
-                                ), // optional: make text pop
+                                ),
                               ),
                               SizedBox(width: 8.w),
                               CircleAvatar(
@@ -103,9 +100,7 @@ class ShopDetailPage extends HookConsumerWidget {
                         child: Container(
                           padding: EdgeInsets.all(16.w),
                           decoration: BoxDecoration(
-                            color: AppColors.onPrimary.withOpacity(
-                              0.3,
-                            ), // translucent color
+                            color: AppColors.onPrimary.withValues(alpha: 0.3),
                             borderRadius: BorderRadius.circular(24.r),
                           ),
                           child: Row(
