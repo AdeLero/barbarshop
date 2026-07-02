@@ -5,6 +5,7 @@ import 'package:barbar_shop/core/core.dart';
 import 'package:barbar_shop/features/features.dart';
 
 void main() {
+  setupDependencies();
   runApp(ProviderScope(child: const MyApp()));
 }
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 720),
       builder: (context, child) {
         return MaterialApp(
+          navigatorKey: getIt<NavigationService>().navigatorKey,
           title: 'Barbar Shop',
           theme: AppTheme.dark,
           home: const LandingPage(),

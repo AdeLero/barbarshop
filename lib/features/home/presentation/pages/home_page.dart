@@ -1,5 +1,4 @@
-import 'package:barbar_shop/core/theme/app_colors.dart';
-import 'package:barbar_shop/core/theme/app_textstyles.dart';
+import 'package:barbar_shop/core/core.dart';
 import 'package:barbar_shop/core/utils/dummy_data/shops.dart';
 import 'package:barbar_shop/features/home/presentation/widgets/barber_shop_card.dart';
 import 'package:barbar_shop/features/profile/presentation/widgets/widgets.dart';
@@ -218,13 +217,8 @@ class HomePage extends HookConsumerWidget {
                     children: [
                       BarberShopCard(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return ShopDetailPage(shop: shop,);
-                              },
-                            ),
+                          getIt<NavigationService>().push(
+                            ShopDetailPage(shop: shop),
                           );
                         },
                         name: shop.name,
