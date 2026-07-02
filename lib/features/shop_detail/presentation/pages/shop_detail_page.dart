@@ -1,7 +1,6 @@
-import 'dart:ui';
-
 import 'package:barbar_shop/core/core.dart';
 import 'package:barbar_shop/features/home/domain/entities/barber_shop.dart';
+import 'package:barbar_shop/features/shop_detail/presentation/pages/booking_appointment_page.dart';
 import 'package:barbar_shop/features/shop_detail/presentation/widgets/shop_option_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,124 +13,237 @@ class ShopDetailPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      extendBody: true,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(24.r),
-                bottomRight: Radius.circular(24.r),
-              ),
-              child: Stack(
+      backgroundColor: AppColors.background,
+      body: SafeArea(
+        bottom: false,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
                 children: [
-                  Image.asset(shop.image, height: 0.5.sh, fit: BoxFit.cover),
-                  Positioned(
-                    top: 48.h,
-                    left: 12.w,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(40.r),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                        child: InkWell(
-                          onTap: () {
-                            getIt<NavigationService>().pop();
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(16.w),
-                            decoration: BoxDecoration(
-                              color: AppColors.onBackground.withAlpha(20),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: AppColors.onBackground,
-                            ),
-                          ),
-                        ),
+                  Image.asset(
+                    shop.image,
+                    height: 0.46.sh,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                  Container(
+                    height: 0.46.sh,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withValues(alpha: 0.15),
+                          Colors.black.withValues(alpha: 0.65),
+                        ],
                       ),
                     ),
                   ),
                   Positioned(
-                    top: 48.h,
-                    right: 12.w,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(40.r),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                        child: Container(
-                          padding: EdgeInsets.all(8.w),
-                          decoration: BoxDecoration(
-                            color: AppColors.onPrimary.withValues(alpha: 0.3),
-                            borderRadius: BorderRadius.circular(40.r),
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 4.w),
-                              Text(
-                                "4.8",
-                                style: AppTextStyles.body.copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              SizedBox(width: 8.w),
-                              CircleAvatar(
-                                backgroundColor: AppColors.primary,
-                                child: Icon(
-                                  Icons.star,
-                                  color: AppColors.background,
-                                  size: 18,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 16.h,
+                    top: 20.h,
                     left: 16.w,
                     right: 16.w,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(24.r),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _CircularIconButton(
+                          icon: Icons.arrow_back_ios_new_rounded,
+                          onTap: () => getIt<NavigationService>().pop(),
+                        ),
+                        _CircularIconButton(
+                          icon: Icons.bookmarks_outlined,
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    left: 16.w,
+                    right: 16.w,
+                    bottom: 16.h,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 6.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
+                          child: Text(
+                            'Top Rated',
+                            style: AppTextStyles.body.copyWith(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 12.h),
+                        Text(
+                          shop.name,
+                          style: AppTextStyles.heading2.copyWith(
+                            fontSize: 24.sp,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 6.h),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.location_on_outlined,
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                            SizedBox(width: 6.w),
+                            Text(
+                              shop.address,
+                              style: AppTextStyles.body.copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(width: 12.w),
+                            const Icon(
+                              Icons.star_rounded,
+                              color: AppColors.primary,
+                              size: 18,
+                            ),
+                            SizedBox(width: 4.w),
+                            Text(
+                              '4.8',
+                              style: AppTextStyles.body.copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(16.w, 20.h, 16.w, 24.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ShopOptionCard(
+                            icon: const Icon(Icons.call_outlined),
+                            label: 'Call',
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: ShopOptionCard(
+                            icon: const Icon(Icons.chat_outlined),
+                            label: 'Message',
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: ShopOptionCard(
+                            icon: const Icon(Icons.directions_outlined),
+                            label: 'Route',
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20.h),
+                    Text('About this shop', style: AppTextStyles.heading2),
+                    SizedBox(height: 10.h),
+                    Text(
+                      'A premium barbershop experience with classic cuts, beard grooming, and a relaxed space for your next refresh.',
+                      style: AppTextStyles.body.copyWith(
+                        color: AppColors.onPrimary,
+                        height: 1.5,
+                      ),
+                    ),
+                    SizedBox(height: 18.h),
+                    Container(
+                      padding: EdgeInsets.all(16.w),
+                      decoration: BoxDecoration(
+                        color: AppColors.onSecondary,
+                        borderRadius: BorderRadius.circular(24.r),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Working hours', style: AppTextStyles.heading2),
+                          SizedBox(height: 12.h),
+                          _InfoRow(
+                            icon: Icons.access_time_rounded,
+                            label: 'Mon - Sat',
+                            value: '09:00 AM - 08:00 PM',
+                          ),
+                          SizedBox(height: 10.h),
+                          _InfoRow(
+                            icon: Icons.calendar_month_outlined,
+                            label: 'Sunday',
+                            value: '10:00 AM - 04:00 PM',
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 18.h),
+                    Text('Popular services', style: AppTextStyles.heading2),
+                    SizedBox(height: 12.h),
+                    ..._services.map(
+                      (service) => Padding(
+                        padding: EdgeInsets.only(bottom: 12.h),
                         child: Container(
                           padding: EdgeInsets.all(16.w),
                           decoration: BoxDecoration(
-                            color: AppColors.onPrimary.withValues(alpha: 0.3),
-                            borderRadius: BorderRadius.circular(24.r),
+                            color: AppColors.onSecondary,
+                            borderRadius: BorderRadius.circular(22.r),
                           ),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    shop.name,
-                                    style: AppTextStyles.heading2,
+                              Container(
+                                padding: EdgeInsets.all(10.w),
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.12,
                                   ),
-                                  SizedBox(height: 8.h),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.location_on_outlined),
-                                      Text(
-                                        shop.address,
-                                        style: AppTextStyles.body,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              CircleAvatar(
-                                radius: 24.w,
-                                backgroundColor: AppColors.onBackground
-                                    .withAlpha(40),
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
                                 child: Icon(
-                                  Icons.bookmarks_outlined,
-                                  color: AppColors.onBackground,
+                                  service.icon,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              SizedBox(width: 14.w),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      service.title,
+                                      style: AppTextStyles.body.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4.h),
+                                    Text(
+                                      service.subtitle,
+                                      style: AppTextStyles.body.copyWith(
+                                        color: AppColors.onPrimary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                service.price,
+                                style: AppTextStyles.body.copyWith(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ],
@@ -139,159 +251,132 @@ class ShopDetailPage extends HookConsumerWidget {
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 16.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 80.h,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        ShopOptionCard(
-                          icon: Icon(Icons.call_outlined),
-                          label: "Call",
-                        ),
-                        SizedBox(width: 12.w),
-                        ShopOptionCard(
-                          icon: Icon(Icons.chat_outlined),
-                          label: "Message",
-                        ),
-                        SizedBox(width: 12.w),
-                        ShopOptionCard(
-                          icon: Icon(Icons.directions),
-                          label: "Directions",
-                        ),
-                        SizedBox(width: 12.w),
-                        ShopOptionCard(
-                          icon: Icon(Icons.more_horiz),
-                          label: "See More",
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 16.h),
-                  Text("Popular Shops", style: AppTextStyles.heading2),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            backgroundColor: AppColors.onSecondary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                24.r,
-                              ), // Responsive rounded corners
-                            ),
-                            padding: EdgeInsets.symmetric(
-                              vertical: 15.h,
-                            ), // Responsive vertical padding
+                    SizedBox(height: 8.h),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          getIt<NavigationService>().push(
+                            BookingAppointmentPage(shop: shop),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24.r),
                           ),
-                          child: Text(
-                            "About",
-                            style: AppTextStyles.body.copyWith(
-                              color: AppColors.onBackground,
-                            ),
+                          padding: EdgeInsets.symmetric(vertical: 16.h),
+                        ),
+                        child: Text(
+                          'Book Appointment',
+                          style: AppTextStyles.body.copyWith(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColors.onSecondary,
-                            backgroundColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                40,
-                              ), // adjust as needed
-                              side: BorderSide(color: AppColors.onSecondary),
-                            ),
-                            side: BorderSide(
-                              color: AppColors.onSecondary,
-                            ), // needed separately too
-                            padding: EdgeInsets.symmetric(vertical: 15.h),
-                          ),
-                          child: Text(
-                            "Review",
-                            style: AppTextStyles.body.copyWith(
-                              color: AppColors.onBackground,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 12.h),
-                  Container(
-                    padding: EdgeInsets.all(12.w),
-                    decoration: BoxDecoration(
-                      color: AppColors.onSecondary,
-                      borderRadius: BorderRadius.circular(24.r),
                     ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.location_on_outlined),
-                            SizedBox(width: 12.w),
-                            Text("Santa Barbara, California"),
-                          ],
-                        ),
-                        SizedBox(height: 12.h),
-                        Row(
-                          children: [
-                            Icon(Icons.calendar_month_outlined),
-                            SizedBox(width: 12.w),
-                            Text("Friday, June 25"),
-                          ],
-                        ),
-                        SizedBox(height: 12.h),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  backgroundColor: AppColors.primary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      24.r,
-                                    ), // Responsive rounded corners
-                                  ),
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 15.h,
-                                  ), // Responsive vertical padding
-                                ),
-                                child: Text(
-                                  "Book Now",
-                                  style: AppTextStyles.body.copyWith(
-                                    color: AppColors.background,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+class _CircularIconButton extends StatelessWidget {
+  const _CircularIconButton({required this.icon, required this.onTap});
+
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(40.r),
+      child: Material(
+        color: Colors.black.withValues(alpha: 0.25),
+        child: InkWell(
+          onTap: onTap,
+          child: SizedBox(
+            height: 48.w,
+            width: 48.w,
+            child: Icon(icon, color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _InfoRow extends StatelessWidget {
+  const _InfoRow({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, color: AppColors.primary, size: 20),
+        SizedBox(width: 10.w),
+        Expanded(
+          child: Text(
+            label,
+            style: AppTextStyles.body.copyWith(color: AppColors.onPrimary),
+          ),
+        ),
+        Text(
+          value,
+          style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+        ),
+      ],
+    );
+  }
+}
+
+class _ServiceData {
+  const _ServiceData({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.price,
+  });
+
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final String price;
+}
+
+const _services = <_ServiceData>[
+  _ServiceData(
+    icon: Icons.content_cut_rounded,
+    title: 'Classic haircut',
+    subtitle: 'Precision trim with finish styling',
+    price: '\$24',
+  ),
+  _ServiceData(
+    icon: Icons.face_retouching_natural_rounded,
+    title: 'Beard sculpting',
+    subtitle: 'Shape and detail your beard line',
+    price: '\$18',
+  ),
+  _ServiceData(
+    icon: Icons.auto_awesome_rounded,
+    title: 'Premium package',
+    subtitle: 'Haircut, beard, and hot towel treatment',
+    price: '\$38',
+  ),
+];
